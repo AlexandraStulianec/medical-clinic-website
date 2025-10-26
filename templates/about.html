@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<title>Healthy Life Medical Clinic: Your Partner in Wellness</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles_about.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login_pg.css' %}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<script src="{% static 'js/script_about.js' %}"></script>
+
+
+</head>
+<body>
+	<header>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			 <a class="navbar-brand" 
+                href="{% if request.session.username and request.session.role == 'patient' %}/accounts/patient
+                    {% elif request.session.username and request.session.role == 'doctor' %}/accounts/doctor  
+                    {% elif request.session.username and request.session.role == 'admin' %}/accounts/admin
+                    {% else %} /
+                    {% endif %}">
+                 Healthy Life Medical Clinic: Your Partner in Wellness</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Services
+						</a>
+						 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="/cardiology">Cardiology</a>
+							<a class="dropdown-item" href="/dentistry">Dentistry</a>
+							<a class="dropdown-item" href="/psychiatry">Psychiatry</a>
+						</div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/about">About</a>
+					</li>
+
+					{% if request.session.username %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/accounts/logout/">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="openLoginPopup()" href="#">Login</a>
+                        </li>
+                    {% endif %}
+				</ul>
+			</div>
+		</nav>
+	</header>
+    {% include 'login_popup.html' %}
+    {% include 'signup_popup.html' %}
+	<main>
+		<section class="hero">
+			<img id="hero-image" src="{% static 'images/banner.png' %}" alt="Hero Image">
+				<div class="hero-content">
+				<h1>Welcome to Healthy Life Medical Clinic</h1>
+				<p>Join us on a path towards wellness, where your health and happiness intersect.</p>
+			</div>
+		</section>
+		<section class="about">
+			<div class="about-content">
+				<h2>About Us</h2>
+				<p>Healthy Life Medical Clinic is a prominent healthcare provider committed to providing thorough and empathetic medical care.
+				Our primary focus is on your health and overall wellness, which is why we've assembled a team of exceptional doctors,
+				nurses, and other support personnel who are dedicated to providing patient-centric care. With our avant-garde
+				establishment, we possess cutting-edge medical equipment that empowers us to provide an extensive assortment
+				of preemptive, therapeutic, and diagnostic services.</p>
+			</div>
+			<div class="about-image-right about-hidden">
+				<img src="{% static 'images/clinic.jpeg' %}" onclick="reloadPage()" style="cursor: pointer;" alt="clinic">
+			</div>
+	  </section>
+
+		<section class="about">
+			<div class="about-image-left about-hidden">
+				<img src="{% static 'images/screening.jpg' %}" onclick="reloadPage()" style="cursor: pointer;" alt="screening">
+			</div>
+			<div class="about-content">
+				<h2>Our Mission</h2>
+				<p>At Healthy Life Medical Clinic , our goal is to improve the well-being of our patients by providing outstanding
+				medical services that prioritize honesty, empathy, and creativity. We want to become your dependable healthcare
+				ally, providing custom-tailored treatment schemes and equipping you with the knowledge to make well-informed choices
+				about your well-being. Our team is fully devoted to staying ahead in the medical field to provide you with the
+				latest and most efficient treatments accessible.</p>
+			</div>
+		</section>
+
+		<section class="team" id="team-section">
+		  <h2>Meet Our Team</h2>
+		  <div class="team-members">
+			<div class="team-member">
+			  <a href="/cardiology"><img src="{% static 'images/doct1.jpg' %}" alt="Doctor 1" ></a>
+			  <h3>Dr. John Smith</h3>
+			  <p>Cardiologist</p>
+			</div>
+			<div class="team-member">
+			  <a href="/dentistry"><img src="{% static 'images/doct2.png' %}" alt="Doctor 2" ></a>
+			  <h3>Dr. Keith Doe</h3>
+			  <p>Dentist</p>
+			</div>
+			<div class="team-member">
+			  <a href="/psychiatry"><img src="{% static 'images/doct3.png' %}" alt="Doctor 3" ></a>
+			  <h3>Dr. Michael Johnson</h3>
+			  <p>Psychiatrist</p>
+			</div>
+		  </div>
+		</section>
+		</main>
+    
+	<footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>HLMC © 2024 | Privacy Policy | Terms of Use</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="text-right">
+                        Follow us:
+                        <a href="#"><img src="{% static 'images/face.png' %}" width="15px" height="15px" alt="Facebook"></a>
+                        <a href="#"><img src="{% static 'images/twit.png' %}" width="15px" height="15px" alt="Twitter"></a>
+                        <a href="#"><img src="{% static 'images/insta.png' %}" width="15px" height="15px"  alt="Instagram"></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+	</body>
+</html>
+

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Healthy Life Medical Clinic: Cardiology</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles_services.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login_pg.css' %}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/script_cardio.js' %}"></script>
+</head>
+<body>
+    <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <a class="navbar-brand"
+                href="{% if request.session.username and request.session.role == 'patient' %}/accounts/patient
+                    {% elif request.session.username and request.session.role == 'doctor' %}/accounts/doctor
+                    {% elif request.session.username and request.session.role == 'admin' %}/accounts/admin
+                    {% else %}/
+                    {% endif %}">
+                 Healthy Life Medical Clinic: Your Partner in Wellness</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Services
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+				<a class="dropdown-item" href="/cardiology">Cardiology</a>
+				<a class="dropdown-item" href="/dentistry">Dentistry</a>
+				<a class="dropdown-item" href="/psychiatry">Psychiatry</a>
+			</div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About</a>
+          </li>
+		    {% if request.session.username %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/accounts/logout/">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="openLoginPopup()" href="#">Login</a>
+                        </li>
+                    {% endif %}
+        </ul>
+      </div>
+    </nav>
+	</header>
+    {% include 'login_popup.html' %}
+    {% include 'signup_popup.html' %}
+	 <main>
+        <section class="hero">
+			<img id="hero-image" src="{% static 'images/banner.png' %}" alt="Hero Image">
+				<div class="hero-content">
+				<h1>Welcome to Healthy Life Medical Clinic</h1>
+				<p>Join us on a path towards wellness, where your health and happiness intersect.</p>
+			</div>
+		</section>
+		<section class="type-info">
+            <div class="container">
+                <h3>Cardiology</h3>
+                <div class="row">
+					<p>Cardiology is a specialized field of medicine that focuses on the diagnosis, treatment, and prevention of 
+					heart-related conditions. Cardiologists are medical professionals who are trained to understand and manage 
+					various cardiovascular diseases, including heart attacks, heart failure, arrhythmias, and coronary artery disease. 
+					They utilize advanced medical technologies and procedures to evaluate and assess heart health, such as 
+					electrocardiograms, echocardiograms, and cardiac catheterizations.</p>
+				</div> 
+            </div>
+        </section>
+        <section class="doctor-bio">
+		<div class="container">
+			<h2>Meet Our Cardiologist</h2>
+			<div class="row">
+				<div class="col-md-4">
+					<img src="{% static 'images/doct1.jpg' %}" alt="Doctor Image" class="doctor-image">
+					<h3>Dr. John Smith</h3>
+					<p>Cardiologist</p>
+					<button id="show-bio-btn" onclick="toggleBio()">Show Bio</button>
+				</div>
+				<div class="col-md-8">
+					<div id="doctor-bio" style="display: none;">
+						<h3>Biography</h3>
+						<p>Dr. Smith is a highly skilled and compassionate cardiologist with more than 15 years of experience in diagnosing 
+						and treating cardiovascular diseases. With a deep understanding of the heart and its complexities, 
+						Dr. Smith provides comprehensive care to patients with various cardiac conditions.</p>
+						
+						<p>Dr. Smith's expertise includes the diagnosis and management of conditions such as coronary artery disease, 
+						heart failure, arrhythmias, and valvular heart diseases. He utilizes state-of-the-art diagnostic tools and 
+						cutting-edge treatments to ensure accurate diagnosis and effective treatment plans.</p>
+						
+						<p>Known for his dedication to patient well-being, Dr. Smith takes the time to listen to their patients, 
+						understand their concerns, and develop personalized treatment strategies. He believes in empowering patients 
+						through education, helping them make informed decisions about their cardiac health.</p>
+						
+						<p>Patients under the care of Dr. Smith can expect exceptional cardiovascular expertise, personalized attention, 
+						and a commitment to improving their heart health and overall well-being.He works collaboratively with a multidisciplinary 
+						team to deliver holistic care, focusing on both the physical and emotional aspects.</p>
+					</div>
+					<div id="services" style="display: block;">
+						<h3 style="padding-bottom:10px">Services</h3>
+						<div class="row justify-content-center">
+							<div class="col-md-6">
+								<div class="services-list">
+									<div class="column-container">
+										<div class="column">
+											<ul>
+												<li>Cardiac Consultation</li>
+												<li>Electrocardiogram (ECG)</li>
+												<li>Echocardiogram</li>
+												
+											</ul>
+										</div>
+										<div class="column">
+											<ul>
+												<li>Stress Test</li>
+												<li>Cardiac Catheterization </li>
+												<li>Holter Monitoring</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<h3 style="padding-bottom:20px">Prices</h3>
+						<div class="row justify-content-center">
+							  <ul class="services-prices">
+								  <li>Cardiac Consultation<span>.............................................................$200-$500</span></li>
+								  <li>Electrocardiogram (ECG)<span>........................................................$50-$200</span></li>
+								  <li>Echocardiogram<span>.....................................................................$300-$800</span></li>
+								  <li>Stress Test<span>.........................................................................$500-$1,000</span></li>
+								  <li>Cardiac Catheterization <span>...................................................$2,000-$5,000</span></li>
+								  <li>Holter Monitoring<span>....................................................................$100-$300</span></li>
+							</ul>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+    </main>
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<p><a href="#" style="color:gray;">HLMC &copy; 2024 </a> | <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
+				</div>
+			<div class="col-md-6">
+				<p>
+					<a href="#" class="follow-us-text">Follow us</a>
+					<a href="#"><img src="{% static 'images/face.png' %}" width="15px" height="15px" alt="Facebook"></a>
+					<a href="#"><img src="{% static 'images/twit.png' %}" width="15px" height="15px" alt="Twitter"></a>
+					<a href="#"><img src="{% static 'images/insta.png' %}" width="15px" height="15px" alt="Instagram"></a>
+				</p>
+			</div>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>

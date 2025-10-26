@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>{% block title %}Healthy Life Medical Clinic{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login_pg.css' %}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand"
+                href="{% if request.session.username and request.session.role == 'patient' %}/accounts/patient
+                    {% elif request.session.username and request.session.role == 'doctor' %}/accounts/doctor
+                    {% elif request.session.username and request.session.role == 'admin' %}/accounts/admin
+                    {% else %}{% endif %}">
+                 Healthy Life Medical Clinic: Your Partner in Wellness</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ml-auto">
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Services
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="/cardiology">Cardiology</a>
+                      <a class="dropdown-item" href="/dentistry">Dentistry</a>
+                      <a class="dropdown-item" href="/psychiatry">Psychiatry</a>
+                  </div>
+              </li>
+					<li class="nav-item">
+						<a class="nav-link" href="/about">About</a>
+					</li>
+					{% if request.session.username %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/accounts/logout/">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="openLoginPopup()" href="#">Login</a>
+                        </li>
+                    {% endif %}
+				</ul>
+      </div>
+    </nav>
+	</header>
+	<main>
+		<section class="hero">
+			<img id="hero-image" src="{% static 'images/banner.png' %}" alt="Hero Image">
+				<div class="hero-content">
+				<h1>Welcome to Healthy Life Medical Clinic</h1>
+				<p>Join us on a path towards wellness, where your health and happiness intersect.</p>
+			</div>
+            {% if messages %}
+            <div>
+                {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+		</section>
+	    <section class="book-appointment">
+		  <div class="container">
+             <!-- Doctor Selection Form -->
+            <form method="GET">
+                <div class="form-group">
+                    <label for="doctor">Select Doctor:</label>
+                    <select id="doctor" name="doctor_id" class="form-control" onchange="this.form.submit()">
+                        <option value="">Select Doctor</option>
+                        {% for doctor in doctors %}
+                            <option value="{{ doctor.doctor_id }}" {% if doctor.doctor_id|stringformat:"s" == selected_doctor_id %}selected{% endif %}>
+                                {{ doctor.name }} - {{ doctor.specialty }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+
+            {% if selected_doctor_id %}
+                <!-- Date Selection Form -->
+                <form method="GET">
+                    <input type="hidden" name="doctor_id" value="{{ selected_doctor_id }}">
+                    <div class="form-group">
+                        <label for="date">Select Date:</label>
+                        <select id="date" name="date" class="form-control" onchange="this.form.submit()">
+                            <option value="">Select Date</option>
+                            {% for date in selected_timeslots %}
+                                <option value="{{ date|date:"Y-m-d" }}" {% if date|date:"Y-m-d" == selected_date %}selected{% endif %}>{{ date|date:"Y-m-d" }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </form>
+            {% endif %}
+
+            {% if selected_date %}
+                <!-- Time Selection Form -->
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="doctor_id" value="{{ selected_doctor_id }}">
+                    <input type="hidden" name="date" value="{{ selected_date }}">
+
+                    <div class="form-group">
+                        <label for="time">Select Time:</label>
+                        <select id="time" name="time" class="form-control" required>
+                            {% for timeslot in selected_timeslots %}
+                                <option value="{{ timeslot.start_time|date:"H:i" }}">{{ timeslot.start_time|date:"H:i" }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Name Field -->
+                    <div class="form-group">
+                        <label for="name">Your Name:</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter your name" required>
+                    </div>
+
+                    <!-- Phone Number Field -->
+                    <div class="form-group">
+                        <label for="phone">Phone Number:</label>
+                        <input type="text" id="phone" name="phone" class="form-control" placeholder="Enter your phone number" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Book Appointment</button>
+                </form>
+            {% endif %}
+		  </div>
+		</section>
+	</main>
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>HLMC © 2024 | Privacy Policy | Terms of Use</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="text-right">
+                        Follow us:
+                        <a href="#"><img src="{% static 'images/face.png' %}" width="15px" height="15px" alt="Facebook"></a>
+                        <a href="#"><img src="{% static 'images/twit.png' %}" width="15px" height="15px" alt="Twitter"></a>
+                        <a href="#"><img src="{% static 'images/insta.png' %}" width="15px" height="15px" alt="Instagram"></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+	</body>
+</html>

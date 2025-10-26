@@ -1,0 +1,142 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>{% block title %}Healthy Life Medical Clinic{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login_pg.css' %}">
+</head>
+<body>
+	<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="/accounts/patient/">Healthy Life Medical Clinic: Your Partner in Wellness</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Services
+						</a>
+						 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="/cardiology">Cardiology</a>
+							<a class="dropdown-item" href="/dentistry">Dentistry</a>
+							<a class="dropdown-item" href="/psychiatry">Psychiatry</a>
+						</div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/about">About</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link"  href="/accounts/logout/">Logout</a>
+					</li>
+				</ul>
+      </div>
+    </nav>
+	</header>
+	<main>
+		<section class="hero">
+			<img id="hero-image" src="{% static 'images/banner.png' %}" alt="Hero Image">
+				<div class="hero-content">
+				<h1>Welcome to Healthy Life Medical Clinic</h1>
+				<p>Join us on a path towards wellness, where your health and happiness intersect.</p>
+				<a href="/accounts/patient/book_appointment_patient/" class="btn-cta">Book an Appointment</a>
+				<a href="/accounts/patient/display_appointments" class="btn-cta">Display Appointments</a>
+                 <p style="margin-top: 10px;">Welcome, {{ username }}!</p>
+			</div>
+            {% if messages %}
+            <div>
+                {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+		</section>
+		<section class="services">
+		  <div class="container">
+			<div class="row justify-content-center">
+			  <div class="col-lg-3 col-md-6 col-sm-12">
+				<div class="service-item">
+				  <div class="service-icon" style="color: red;">&#x2764;</div>
+				  <h3><a href="/cardiology">Cardiology</a></h3>
+				</div>
+			  </div>
+			  <div class="col-lg-3 col-md-6 col-sm-12">
+				<div class="service-item">
+				  <div class="service-icon">&#x1F9B7;</div>
+				  <h3><a href="/dentistry">Dentistry</a></h3>
+				</div>
+			  </div>
+			  <div class="col-lg-3 col-md-6 col-sm-12">
+				<div class="service-item">
+				  <div class="service-icon">&#x1F9E0;</div>
+				  <h3><a href="/psychiatry" style="text-align:center;">Psychiatry</a></h3>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</section>
+		<section class="about">
+		  <div class="container">
+			<div class="row">
+			  <div class="col-md-6">
+				<h2 style="text-align: center;">About Us</h2><br>
+				<p style="text-align:center;">&nbsp; Healthy Life Medical Clinic was born out of passion for medicine, care for people, selflessness for the therapeutic value of the medical act and devotion to medical ethics. </p>
+				<div class="text-center">
+				  <a href="/about/" class="btn-cta">Learn More</a>
+				</div>
+			  </div>
+			  <div class="col-md-6">
+				<div class="iframe-container">
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/ae05k9e_zFc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</section>
+		<section class="testimonials">
+		<h2>Testimonials</h2>
+		<div class="testimonial">
+			<p>"The medical clinic provided excellent care and personalized treatment. The staff was attentive and professional, making me feel comfortable throughout my visit. I highly recommend their services."</p>
+			<cite>Johnny Nick</cite>
+		</div>
+		<div class="testimonial">
+			<p>"I'm impressed with the medical clinic's exceptional service. The team was attentive, thorough, and made me feel valued as a patient. I appreciate their dedication to providing quality healthcare."</p>
+			<cite>Emily Lonar</cite>
+		</div>
+		<div class="testimonial">
+			<p>"I had a positive experience at the medical clinic. The doctors and staff were knowledgeable, friendly, and efficient. I felt well-cared for and would trust them with my healthcare needs in the future."</p>
+			<cite>Michael Jackie</cite>
+		</div>
+		<div class="testimonial">
+			<p>"I had an amazing time at the clinic. Dr. Smith took the time to listen to my concerns and provided thorough explanations of my diagnosis and treatment options. I highly recommend it."</p>
+			<cite>Sarah Wilson</cite>
+		</div>
+	</section>
+	</main>
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>HLMC © 2024 | Privacy Policy | Terms of Use</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="text-right">
+                        Follow us:
+                        <a href="#"><img src="{% static 'images/face.png' %}" width="15px" height="15px" alt="Facebook"></a>
+                        <a href="#"><img src="{% static 'images/twit.png' %}" width="15px" height="15px" alt="Twitter"></a>
+                        <a href="#"><img src="{% static 'images/insta.png' %}" width="15px" height="15px" alt="Instagram"></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://code.jquery .com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/script_base.js' %}"></script>
+</body>
+</html>

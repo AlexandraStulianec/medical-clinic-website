@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>{% block title %}Healthy Life Medical Clinic{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+	<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <a class="navbar-brand"
+                href="{% if request.session.username and request.session.role == 'patient' %}/accounts/patient
+                    {% elif request.session.username and request.session.role == 'doctor' %}/accounts/doctor
+                    {% elif request.session.username and request.session.role == 'admin' %}/accounts/admin
+                    {% else %}{% endif %}">
+                 Healthy Life Medical Clinic: Your Partner in Wellness</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Services
+						</a>
+						 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="/cardiology">Cardiology</a>
+							<a class="dropdown-item" href="/dentistry">Dentistry</a>
+							<a class="dropdown-item" href="/psychiatry">Psychiatry</a>
+						</div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/about">About</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/accounts/logout/">Logout</a>
+					</li>
+				</ul>
+      </div>
+    </nav>
+	</header>
+	<main>
+		<section class="hero">
+			<img id="hero-image" src="{% static 'images/banner.png' %}" alt="Hero Image">
+				<div class="hero-content">
+				<h1>Welcome to Healthy Life Medical Clinic</h1>
+				<p>Join us on a path towards wellness, where your health and happiness intersect.</p>
+			</div>
+            {% if messages %}
+            <div>
+                {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+		</section>
+
+     <section class="manageappointments">
+        <div class="container mt-5">
+                <h4>View Appointments</h4>
+                {% if appointments %}
+                <table class="table table-bordered mt-4">
+                    <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Phone Number</th>
+                            <th>Doctor</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Cancel Appointment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in appointments %}
+                        <tr>
+                            <td>{{ appointment.patient_name }}</td>
+                            <td>{{ appointment.patient_phone }}</td>
+                            <td>{{ appointment.doctor.name }}</td>
+                            <td>{{ appointment.date }}</td>
+                            <td>{{ appointment.time }}</td>
+                            <td>
+                              <form method="POST" style="display:inline;" action="{% url 'display_appointments' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="appointment_id" value="{{ appointment.appointment_id }}">
+                                <button type="submit" class="btn btn-danger">Cancel</button>
+                            </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                    <p>You do not have any available appointments at the moment.</p>
+                {% endif %}
+            </div>
+     </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>HLMC © 2024 | Privacy Policy | Terms of Use</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="text-right">
+                        Follow us:
+                        <a href="#"><img src="{% static 'images/face.png' %}" width="15px" height="15px" alt="Facebook"></a>
+                        <a href="#"><img src="{% static 'images/twit.png' %}" width="15px" height="15px" alt="Twitter"></a>
+                        <a href="#"><img src="{% static 'images/insta.png' %}" width="15px" height="15px" alt="Instagram"></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Healthy Life Medical Clinic: Dentistry</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles_services.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login_pg.css' %}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/script_dent.js' %}"></script>
+</head>
+<body>
+    <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <a class="navbar-brand"
+                href="{% if request.session.username and request.session.role == 'patient' %}/accounts/patient
+                    {% elif request.session.username and request.session.role == 'doctor' %}/accounts/doctor
+                    {% elif request.session.username and request.session.role == 'admin' %}/accounts/admin
+                    {% else %}/{% endif %}">
+                 Healthy Life Medical Clinic: Your Partner in Wellness</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Services
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+				<a class="dropdown-item" href="/cardiology">Cardiology</a>
+				<a class="dropdown-item" href="/dentistry">Dentistry</a>
+				<a class="dropdown-item" href="/psychiatry">Psychiatry</a>
+			</div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About</a>
+          </li>
+		    {% if request.session.username %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/accounts/logout/">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="openLoginPopup()" href="#">Login</a>
+                        </li>
+                    {% endif %}
+        </ul>
+      </div>
+    </nav>
+	</header>
+	{% include 'login_popup.html' %}
+    {% include 'signup_popup.html' %}
+	    <main>
+        <section class="hero">
+			<img id="hero-image" src="{% static 'images/banner.png' %}" alt="Hero Image">
+				<div class="hero-content">
+                <h1>Welcome to Healthy Life Medical Clinic</h1>
+				<p>Join us on a path towards wellness, where your health and happiness intersect.</p>
+            </div>
+        </section>
+		<section class="type-info">
+            <div class="container">
+                <h3>Dentistry</h3>
+                <div class="row">
+					<p>Dentistry encompasses the evaluation, diagnosis, and treatment of oral health issues. 
+					Dentists are oral healthcare professionals who focus on the prevention, diagnosis, and treatment 
+					of conditions affecting the teeth, gums, and mouth. They perform routine dental examinations, cleanings, 
+					and X-rays to identify dental problems like tooth decay, gum disease, or oral infections. 
+					Dentists provide various treatments, including fillings, extractions, root canals, and dental prosthetics
+					like dentures or implants.</p>
+				</div> 
+            </div>
+        </section>
+        <section class="doctor-bio">
+		<div class="container">
+			<h2>Meet Our Dentist</h2>
+			<div class="row">
+				<div class="col-md-4">
+					<img src="{% static 'images/doct2.png' %}" alt="Doctor Image" class="doctor-image">
+					<h3>Dr. Keith Doe</h3>
+					<p>Dentist</p>
+					<button id="show-bio-btn" onclick="toggleBio()">Show Bio</button>
+				</div>
+				<div class="col-md-8">
+					<div id="doctor-bio" style="display: none;">
+						<h3>Biography</h3>
+						<p>Dr. Doe is a highly skilled, with more than 15 years of experience and dedicated dentist with a wealth of experience in providing top-notch dental care. 
+						With a warm and compassionate approach, Dr. Doe creates a welcoming and relaxed atmosphere for patients of all ages. 
+						Their commitment to oral health extends beyond routine check-ups and cleanings, as he strives to educate and empower 
+						patients to maintain optimal dental wellness.</p>
+						
+						<p>Dr. Doe's expertise encompasses a wide range of dental services, including preventive care, cosmetic dentistry, 
+						restorative treatments, and more. Whether it's a routine dental exam or a complex procedure, Dr. Doe utilizes 
+						the latest techniques and state-of-the-art equipment to deliver outstanding results.</p>
+						
+						<p>Patients appreciate Dr. Doe's gentle and patient-centered approach. He takes the time to listen to each 
+						patient's concerns and tailor treatment plans to meet their unique needs. From addressing dental anxiety to 
+						providing personalized treatment options, Dr. Doe ensures every patient feels comfortable and confident.</p>
+                        
+					</div>
+					<div id="services" style="display: block;">
+						<h3 style="padding-bottom:10px">Services</h3>
+						<div class="row justify-content-center">
+							<div class="col-md-6">
+								<div class="services-list">
+									<div class="column-container">
+										<div class="column">
+											<ul>
+												<li>Check-up</li>
+												<li>Tooth Extraction</li>
+												<li>Dental Filling</li>
+												
+											</ul>
+										</div>
+										<div class="column">
+											<ul>
+												<li>Dental Implant</li>
+												<li>Dental Crown</li>
+												<li>Root Canal Treatment</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<h3 style="padding-bottom:10px">Prices</h3>
+						<div class="row justify-content-center">
+							  <ul class="services-prices">
+									<li>Check-up and Cleaning <span>.............................................$75-$200</span></li>
+									<li>Tooth Extraction <span>......................................$150-$300 per tooth</span></li>
+									<li>Dental Filling <span>...........................................$100-$300 per filling</span></li>
+									<li>Root Canal Treatment <span>..........................$500-$1,500 per tooth</span></li>
+									<li>Dental Crown <span>.....................................$800-$1,500 per crown</span></li>
+									<li>Dental Implant <span>................................$1,500-$4,000 per implant</span></li>
+							</ul>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+    </main>
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<p><a href="#" style="color:gray;">HLMC &copy; 2024 </a> | <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
+				</div>
+			<div class="col-md-6">
+				<p>
+					<a href="#" class="follow-us-text">Follow us</a>
+					<a href="#"><img src="{% static 'images/face.png' %}" width="15px" height="15px" alt="Facebook"></a>
+					<a href="#"><img src="{% static 'images/twit.png' %}" width="15px" height="15px" alt="Twitter"></a>
+					<a href="#"><img src="{% static 'images/insta.png' %}" width="15px" height="15px" alt="Instagram"></a>
+				</p>
+			</div>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>

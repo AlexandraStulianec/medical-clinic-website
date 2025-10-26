@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Healthy Life Medical Clinic: Cardiology</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles_services.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login_pg.css' %}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/script_psych.js' %}"></script>
+</head>
+<body>
+   <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand"
+                href="{% if request.session.username and request.session.role == 'patient' %}/accounts/patient
+                    {% elif request.session.username and request.session.role == 'doctor' %}/accounts/doctor
+                    {% elif request.session.username and request.session.role == 'admin' %}/accounts/admin
+                    {% else %}/
+                    {% endif %}">
+                 Healthy Life Medical Clinic: Your Partner in Wellness</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Services
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+				<a class="dropdown-item" href="/cardiology">Cardiology</a>
+				<a class="dropdown-item" href="/dentistry">Dentistry</a>
+				<a class="dropdown-item" href="/psychiatry">Psychiatry</a>
+			</div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About</a>
+          </li>
+		   {% if request.session.username %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/accounts/logout/">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="openLoginPopup()" href="#">Login</a>
+                        </li>
+                    {% endif %}
+        </ul>
+      </div>
+    </nav>
+	</header>
+	{% include 'login_popup.html' %}
+    {% include 'signup_popup.html' %}
+	    <main>
+        <section class="hero">
+			<img id="hero-image" src="{% static 'images/banner.png' %}" alt="Hero Image">
+				<div class="hero-content">
+               <h1>Welcome to Healthy Life Medical Clinic</h1>
+				<p>Join us on a path towards wellness, where your health and happiness intersect.</p>
+            </div>
+        </section>
+		<section class="type-info">
+            <div class="container">
+                <h3>Psychiatry</h3>
+                <div class="row">
+					<p>Psychiatry is a medical specialty that deals with the diagnosis, treatment, and management of mental disorders. 
+					Psychiatrists are medical doctors who specialize in understanding the complexities of the human mind and addressing 
+					mental health concerns. They evaluate patients through interviews, psychological assessments, and observation to 
+					diagnose conditions such as depression, anxiety disorders, bipolar disorder, schizophrenia, and substance abuse 
+					disorders. Psychiatrists use various treatment modalities, including medications, psychotherapy, and other 
+					therapeutic interventions, to help patients manage their mental health conditions. </p>
+				</div> 
+            </div>
+        </section>
+        <section class="doctor-bio">
+		<div class="container">
+			<h2>Meet Our Psychiatrist</h2>
+			<div class="row">
+				<div class="col-md-4">
+					<img src="{% static 'images/doct3.png' %}" alt="Doctor Image" class="doctor-image">
+					<h3>Dr. Michael Johnson</h3>
+					<p>Psychiatrist</p>
+					<button id="show-bio-btn" onclick="toggleBio()">Show Bio</button>
+				</div>
+				<div class="col-md-8">
+					<div id="doctor-bio" style="display: none;">
+						<h3>Biography</h3>
+						<p>Dr. Johnson is a compassionate and highly experienced psychiatrist, with more thatn 15 years of experience,
+						dedicated to providing comprehensive mental
+						health care. With a deep understanding of the complexities of the human mind, Dr. Johnson offers personalized 
+						treatment plans tailored to each patient's unique needs and circumstances.</p>
+						
+						<p>With a warm and empathetic approach, Dr. Johnson creates a safe and non-judgmental space for individuals 
+						seeking support for their mental well-being. He specializes in diagnosing and treating a wide range of 
+						mental health conditions, including anxiety disorders, depression, bipolar disorder, schizophrenia, and more.</p>
+						
+						<p>He may incorporate medication management, psychotherapy, cognitive-behavioral therapy (CBT), 
+						or other modalities based on individual needs.Dr. Johnson understands that mental health is a 
+						critical aspect of overall well-being and recognizes the interconnectedness between mental, emotional, 
+						and physical health. By fostering a holistic approach to treatment, they strive to empower patients 
+						to achieve mental wellness and lead fulfilling lives.</p>
+					
+					</div>
+					<div id="services" style="display: block;">
+						<h3 style="padding-bottom:10px">Services</h3>
+						<div class="row justify-content-center">
+							<div class="col-md-6">
+								<div class="services-list">
+									<div class="column-container">
+										<div class="column">
+											<ul>
+												<li>Psychiatric Evaluation</li>
+												<li>Medication Management</li>
+												<li>Individual Therapy Session</li>
+												
+											</ul>
+										</div>
+										<div class="column">
+											<ul>
+												 <li>Group Therapy</li>
+												 <li>Cognitive-Behavioral Therapy (CBT)</li>
+												 <li>Psychiatric Hospitalization</li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<h3 style="padding-bottom:10px">Prices</h3>
+						<div class="row justify-content-center">
+							  <ul class="services-prices">
+									<li>Psychiatric Evaluation <span>..............................................................$200-$500</span></li>
+									<li>Medication Management <span>......................................$100-$300 per session</span></li>
+									<li>Individual Therapy Session <span>..................................$150-$300 per session</span></li>
+									<li>Cognitive-Behavioral Therapy (CBT) <span>....................$150-$300 per session</span></li>
+									<li>Group Therapy <span>........................................................$50-$150 per session</span></li>
+									<li>Psychiatric Hospitalization <span>.....................................$1,000-$2,500 per day</span></li>
+							</ul>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+    </main>
+<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<p><a href="#" style="color:gray;">HLMC &copy; 2024 </a> | <a href="#">Privacy Policy</a> | <a href="#">Terms of Use</a></p>
+				</div>
+			<div class="col-md-6">
+				<p>
+					<a href="#" class="follow-us-text">Follow us</a>
+					<a href="#"><img src="{% static 'images/face.png' %}" width="15px" height="15px" alt="Facebook"></a>
+					<a href="#"><img src="{% static 'images/twit.png' %}" width="15px" height="15px" alt="Twitter"></a>
+					<a href="#"><img src="{% static 'images/insta.png' %}" width="15px" height="15px" alt="Instagram"></a>
+				</p>
+			</div>
+			</div>
+		</div>
+	</footer>
+</body>
+</html>
